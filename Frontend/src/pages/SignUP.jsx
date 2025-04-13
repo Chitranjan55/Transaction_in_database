@@ -25,7 +25,7 @@ const SignUp = () => {
           <InputBox onChange={(e) =>
             setPassword(e.target.value)} placeholder="Password" />
           <Button onClick={async (e) => {
-            let response = await axios.post("http://localhost:3000/api/v1/users/signup", {
+            let response = await axios.post("http://54.85.251.3:3000/api/v1/users/signup", {
               username: email,
               firstName: firstName,
               lastName: lastName,
@@ -35,7 +35,7 @@ const SignUp = () => {
             navigate("/dashboard");
           }} text="SIGN UP" />
           <div>
-            Already a user ? <a href='http://localhost:5173/signin' className='text-blue-500'>Sign in</a>
+            Already a user ? <a href='http://54.85.251.3:5173/signin' className='text-blue-500'>Sign in</a>
           </div>
 
         </div>

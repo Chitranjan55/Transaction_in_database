@@ -21,7 +21,7 @@ const SendMoney = () => {
             </div>
             <Button onClick={async(e)=>{
                 try {
-                    let res = await axios.post("http://localhost:3000/api/v1/amount/sendmoney",{
+                    let res = await axios.post("http://54.85.251.3:3000/api/v1/amount/sendmoney",{
                         to: searchParams.get("to"),
                         amount: amount
                     },{
