@@ -14,7 +14,7 @@ const DashBoard = () => {
   useEffect(()=>{
     const getUser = async ()=>{
       try {
-        const res = await  axios.get('http://54.85.251.3:3000/api/v1/users/username',{
+        const res = await  axios.get('http://54.166.40.97:3000/api/v1/users/username',{
           headers:{
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -30,7 +30,7 @@ const DashBoard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://54.85.251.3:3000/api/v1/amount/balance', {
+        const res = await axios.get('http://54.166.40.97:3000/api/v1/amount/balance', {
           headers: {
             authorization: "Bearer " + localStorage.getItem('token'),
           },
@@ -47,7 +47,7 @@ const DashBoard = () => {
   useEffect(() => {
     const filterSearch = async () => {
       try {
-        const response = await axios.get(`http://54.85.251.3:3000/api/v1/users/bulk?filter=` + filter, {
+        const response = await axios.get(`http://54.166.40.97:3000/api/v1/users/bulk?filter=` + filter, {
           headers: {
             authorization: "Bearer " + localStorage.getItem('token'),
           },
