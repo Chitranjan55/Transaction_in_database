@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("zod");
 
-mongoose.connect("mongodb+srv://prathammailme09:Bwuack09@cluster0.pakoo3h.mongodb.net/bank")
+mongoose.connect("mongodb://Chitu:Chitu@mongo:27017")
 .then(()=>{
     console.log( "Connected to database" );
 })

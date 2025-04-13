@@ -1,0 +1,45 @@
+services:
+  mongo:
+    image: mongo:8.0
+    container_name: Transaction-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Chitu
+      MONGO_INITDB_ROOT_PASSWORD: Chitu
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./Backend
+      # Ensure you have a Dockerfile in your Backend folder
+      dockerfile: Dockerfile
+    container_name: backend
+    depends_on:
+      - mongo
+    environment:
+      # Example: You can set your connection string here if you want to override defaults.
+      MONGO_URI: "mongodb://Chitu:Chitu@mongo:27017"
+    command: sh -c "npm install && node index.js"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Backend:/app
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    depends_on:
+      - backend
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    volumes:
+     - ./Frontend:/app
+
+
+volumes:
+  mongo-data:

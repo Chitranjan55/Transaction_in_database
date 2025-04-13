@@ -29,18 +29,12 @@ router.get("/balance", authMiddleware, async (req, res) => {
 
 
 // route to send money
-router.post("/sendmoney", authMiddleware,async (req, res) => {
+router.post("/sendmoney", authMiddleware, async (req, res) => {
     try {
-        const session = await mongoose.startSession();
-        session.startTransaction();
         const { amount, to } = req.body;
 
-        // Find the sender's account
-        const validateSender = await Account.findOne({ userId: req.userId }).session(session);
-
-        // Check if the sender's account exists and has sufficient balance
+        const validateSender = await Account.findOne({ userId: req.userId });
         if (!validateSender || validateSender.balance < amount) {
-            await session.abortTransaction();
             if (!validateSender) {
                 return res.status(401).send("Sender account not found");
             } else {
@@ -48,21 +42,13 @@ router.post("/sendmoney", authMiddleware,async (req, res) => {
             }
         }
 
-        // Find the receiver's account
-        const receiver = await Account.findOne({ userId: to }).session(session);
-
-        // Check if the receiver's account exists
+        const receiver = await Account.findOne({ userId: to });
         if (!receiver) {
-            await session.abortTransaction();
             return res.status(404).send("Receiver account not found");
         }
 
-        // Perform the money transfer
-        await Account.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
-        await Account.updateOne({ userId: to }, { $inc: { balance: +amount } }).session(session);
-
-        // Commit the transaction
-        await session.commitTransaction();
+        await Account.updateOne({ userId: req.userId }, { $inc: { balance: -amount } });
+        await Account.updateOne({ userId: to }, { $inc: { balance: +amount } });
 
         res.status(200).send("Transfer successful");
     } catch (error) {
@@ -70,6 +56,7 @@ router.post("/sendmoney", authMiddleware,async (req, res) => {
         res.status(500).send("Internal server error");
     }
 });
+
 
 
 module.exports = router;
